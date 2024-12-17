@@ -1,0 +1,204 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary-color: #004466; /* Deep Blue */
+  --secondary-color: #c8c1c1; /* Light Grey */
+  --accent-color: #00cc66; /* Vibrant Green */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", serif;
+}
+body {
+  background-color: aliceblue;
+}
+.container {
+  
+  border: none;
+  height: 450px;
+  width: 400px;
+  position: fixed;
+  bottom: 70px;
+  right: 45px;
+
+  @apply flex  flex-col gap-2 my-3  rounded-3xl;
+}
+
+.show-chatbot .pop-up {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1);
+}
+.pop-up {
+  transform: scale(0.1);
+  pointer-events: none;
+  overflow: hidden;
+  transform: bottom right;
+  box-shadow: 0 0 128px 0 rgba(0, 0, 0, 0.1),
+    0 32px 64px -48px rgba(0, 0, 0, 0.5);
+  transition: all 0.1s ease;
+  @apply rounded-2xl relative bg-white;
+  height: 100%;
+  opacity: 0;
+} /* Added relative positioning */
+
+/* //////////////////////////Header//////////////////////////////// */
+.bot-header {
+  border-top: 3px solid var(--primary-color);
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+  @apply flex items-center justify-center bg-[var(--primary-color)]; /* Changed to white */
+}
+
+.bot-header .header-info {
+  flex: 1;
+  color: white;
+  @apply flex items-center gap-2 pl-4 py-1 ;
+}
+.header-info svg {
+  fill: white;
+}
+.title {
+  @apply text-xl font-bold;
+}
+
+.header-arrow{
+  color: white;
+  /* border: 1px solid white; */
+  @apply p-1 mx-4 rounded-full my-2
+}
+
+.header-arrow:hover{
+  background-color: #0c6b9a;
+}
+
+/* /////////////////////////body///////////////////////////////
+ */
+.bot-body {
+  color: black;
+  max-height: 350px; /*Set a maximum height*/
+  overflow-y: auto; /*Enable vertical scrolling*/
+  @apply p-3 flex flex-col gap-1;
+}
+
+/* ////////scroll */
+
+.msg {
+  word-wrap: break-word;
+  @apply flex gap-3 items-center p-3;
+}
+
+.bot-msg svg {
+  height: 35px;
+  width: 35px;
+  align-self: flex-end;
+  @apply p-2 flex-shrink-0 mb-0.5 bg-[var(--primary-color)] fill-white rounded-full;
+}
+.bot-text {
+  max-width: 75%;
+  border-radius: 10px 10px 10px 0px;
+  @apply p-3 mb-2;
+  background-color: rgb(171, 205, 236);
+}
+
+.user-msg {
+  flex-direction: column;
+  align-items: end;
+}
+.user-text {
+  color: white;
+  max-width: 75%;
+  border-radius: 10px 10px 0px 10px;
+  @apply p-3 bg-[var(--primary-color)];
+}
+
+.bot-body .msg.error .msg-text{
+  color: #ff0000;
+}
+
+/* ////////////////input///////////////////////////// */
+
+.user-input {
+  
+/* border: 2px  solid saddlebrown; */
+  @apply absolute bottom-0 w-full  p-3 bg-white;
+}
+
+.user-input .forms {
+  outline: 1px solid #cccce5;
+  @apply flex align-middle bg-white rounded-xl focus-within:outline-2;
+}
+
+.user-input .ip {
+  outline: none;
+  @apply w-full bg-none px-4 py-3 text-black;
+}
+
+.user-input button {
+  transition: 0.2s ease;
+  display: none;
+  @apply border-none h-6 w-6 outline-none cursor-pointer text-white flex-shrink-0 bg-[var(--primary-color)] rounded-full m-3;
+  @apply hover:bg-[#425291ef];
+}
+.user-input .ip:not(:placeholder-shown) ~ button {
+  display: block;
+}
+
+#chatbot-toggler {
+  position: fixed;
+  bottom: 20px;
+  right: 40px;
+  border: none;
+  height: 45px;
+  width: 45px;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--primary-color);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.container.show-chatbot #chatbot-toggler {
+  transform: rotate(90deg);
+}
+
+#chatbot-toggler span {
+  color: #fff;
+  position: absolute;
+}
+
+#chatbot-toggler span:last-child,
+.container.show-chatbot #chatbot-toggler span:first-child {
+  opacity: 0;
+}
+
+.container.show-chatbot #chatbot-toggler span:last-child {
+  opacity: 1;
+}
+
+
+@media (max-width: 640px) { /* Tailwind's sm breakpoint */
+  .container {
+    height: 100vh; /* Full height */
+    width: 100vw; /* Full width */
+    bottom: 0; /* Adjust position */
+    right: 0; /* Adjust position */
+    /* .pop-up{
+      height: 100%;
+    } */
+  }
+  .bot-body{
+    height: calc(len(pop-up)-len(bot-header)-len(user-input));
+  }
+  .bot-header .header-info{
+    @apply mt-2
+  }
+}
